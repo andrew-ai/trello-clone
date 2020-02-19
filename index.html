@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+  <title>Trello Clone</title>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+</head>
+<html>
+<body>
+  <div id="app">
+
+    <div class="flex-container">
+      <!-- title of board -->
+      <!-- toggled view -->
+      <template v-if="toggleTitle">
+        <input v-model="title" type="text">
+        <button v-on:click="toggleTitle = !toggleTitle">Save</button>
+        <button v-on:click="toggleTitle = !toggleTitle">Back</button>
+      </template>
+
+      <!-- normal view -->
+      <template v-else>
+        <b>{{title}}</b>
+        <button v-on:click="toggleTitle = !toggleTitle">Edit</button>
+        <button v-on:click="removeBoard()">Remove</button>
+      </template>      
+
+      <ul>
+        <!-- list cards -->
+        <li 
+          v-for="c in cards"
+          v-bind:id="'card-' + c.id"
+          draggable="true"
+          v-on:dragstart="drag($event)"
+          v-on:dragover="$event.preventDefault()"
+          v-on:drop="drop($event)"
+          >
+          <!-- toggled view -->
+          <template v-if="toggle == c.id">
+            <input v-model="c.title" type="text">
+            <button v-on:click="editCard(c)">Save</button>
+            <button v-on:click="toggle = null">Back</button>
+          </template>
+
+          <!-- normal view -->
+          <template v-else>
+            {{c.title}}
+            <button v-on:click="toggle = c.id">Edit</button>
+            <button v-on:click="removeCard(c)">Remove</button>
+          </template>
+        </li>
+        <!-- new card section -->
+        <li>
+          <!-- toggled card view -->
+          <template v-if="toggleCard == true">
+            <input v-model="newCardTitle" type="text">
+            <button v-on:click="addCard(newCardTitle)">Save</button>
+            <button v-on:click="toggleCard = !toggleCard">Back</button>
+          </template>
+          <!-- normal view -->
+          <template v-else>
+            <button v-on:click="toggleCard = true">Add Card</button>
+          </template>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="app.js"></script>
+</html>
