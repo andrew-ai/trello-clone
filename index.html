@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <head>
   <title>Trello Clone</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/84345c77ec.js" crossorigin="anonymous"></script>
 </head>
 <html>
+
 <body>
   <!-- NAV BAR -->
   <nav id="navy" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -47,14 +50,14 @@
       <li>
         <button type="button" class="btn btn-secondary">
           <i class="fas fa-user"></i>
-        </button>      
+        </button>
       </li>
     </ul>
   </nav>
 
-  <div id="app" style="background-color: black; height: 100%;">
+  <div id="app" style="height: 100%;">
 
-    <div class="flex-container" >
+    <div class="container-fluid">
 
       <!-- display boards -->
 
@@ -62,21 +65,10 @@
       v-on:dragstart="drag($event)"
       v-on:dragover="$event.preventDefault()"
       v-on:drop="drop($event)" -->
-      <template
-        v-for="b in boards">
-        <span
-          class="reorder"
-          v-bind:id="'board-' + b.id"
-          draggable="true"
-          v-on:dragstart="drag($event)"
-          v-on:dragover="$event.preventDefault()"
-          v-on:drop="drop($event)"
-        >reorder</span>
-        <board 
-          v-bind:key="b.id"
-          v-bind:idprop="b.id"
-          v-bind:titleprop="b.title"
-          v-bind:cardsprop="b.cards"
+      <template v-for="b in boards">
+        <span class="reorder" v-bind:id="'board-' + b.id" draggable="true" v-on:dragstart="drag($event)"
+          v-on:dragover="$event.preventDefault()" v-on:drop="drop($event)">reorder</span>
+        <board v-bind:key="b.id" v-bind:idprop="b.id" v-bind:titleprop="b.title" v-bind:cardsprop="b.cards"
           v-bind:uidcounterprop="b.cards.length">
         </board>
       </template>
@@ -99,4 +91,5 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="app.js"></script>
+
 </html>

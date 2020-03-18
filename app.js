@@ -103,60 +103,74 @@ Vue.component('board', {
     }
   }, 
   template: `
-    <div>
+    <div class="card">
       <!-- title of board -->
       <!-- toggled view -->
-      <template v-if="toggleTitle">
-        <input v-model="title" type="text">
-        <button v-on:click="toggleTitle = !toggleTitle">Save</button>
-        <button v-on:click="toggleTitle = !toggleTitle">Back</button>
-      </template>
+      <div class="row" v-if="toggleTitle">
+        <div class="span4">
+          <input v-model="title" type="text">
+        </div>
+        <div class="span4">
+          <button v-on:click="toggleTitle = !toggleTitle">Save</button>
+        </div>
+        <div class="span4">
+          <button v-on:click="toggleTitle = !toggleTitle">Back</button>
+        </div>
+      </div>
 
       <!-- normal view -->
-      <template v-else>
-        <b>{{title}}</b>
-        <button v-on:click="toggleTitle = !toggleTitle">Edit</button>
-        <button v-on:click="removeBoard()">Remove</button>
-      </template>      
+      <div class="row" v-else>
+        <div class="span4">
+          <b>{{title}}</b>
+        </div>
+        <div class="span4">
+          <button v-on:click="toggleTitle = !toggleTitle">Edit</button>
+        </div>
+        <div class="span4">
+          <button v-on:click="removeBoard()">Remove</button>
+        </div>
+      </div>
 
-      <ul>
-        <!-- list cards -->
-        <li 
-          v-for="c in cards"
-          v-bind:id="'card-' + c.id"
-          draggable="true"
-          v-on:dragstart="drag($event)"
-          v-on:dragover="$event.preventDefault()"
-          v-on:drop="drop($event)"
-          >
-          <!-- toggled view -->
-          <template v-if="toggle == c.id">
-            <input v-model="c.title" type="text">
-            <button v-on:click="editCard(c)">Save</button>
-            <button v-on:click="toggle = null">Back</button>
-          </template>
+      <div class="row">
+        <ul>
+          <!-- list cards -->
+          <li v-for="c in cards"
+            v-bind:id="'card-' + c.id"
+            draggable="true"
+            v-on:dragstart="drag($event)"
+            v-on:dragover="$event.preventDefault()"
+            v-on:drop="drop($event)">
+            
+            <!-- toggled view -->
+            <template v-if="toggle == c.id">
+              <input v-model="c.title" type="text">
+              <button v-on:click="editCard(c)">Save</button>
+              <button v-on:click="toggle = null">Back</button>
+            </template>
 
-          <!-- normal view -->
-          <template v-else>
-            {{c.title}}
-            <button v-on:click="toggle = c.id">Edit</button>
-            <button v-on:click="removeCard(c)">Remove</button>
-          </template>
-        </li>
-        <!-- new card section -->
-        <li>
-          <!-- toggled card view -->
-          <template v-if="toggleCard == true">
-            <input v-model="newCardTitle" type="text">
-            <button v-on:click="addCard(newCardTitle)">Save</button>
-            <button v-on:click="toggleCard = !toggleCard">Back</button>
-          </template>
-          <!-- normal view -->
-          <template v-else>
-            <button v-on:click="toggleCard = true">Add Card</button>
-          </template>
-        </li>
-      </ul>  
+            <!-- normal view -->
+            <template v-else>
+              {{c.title}}
+              <button v-on:click="toggle = c.id">Edit</button>
+              <button v-on:click="removeCard(c)">Remove</button>
+            </template>
+          </li>
+          <!-- new card section -->
+          <li>
+            <!-- toggled card view -->
+            <template v-if="toggleCard == true">
+              <input v-model="newCardTitle" type="text">
+              <button v-on:click="addCard(newCardTitle)">Save</button>
+              <button v-on:click="toggleCard = !toggleCard">Back</button>
+            </template>
+            <!-- normal view -->
+            <template v-else>
+              <button v-on:click="toggleCard = true">Add Card</button>
+            </template>
+          </li>
+        </ul>  
+      </div>
+      
     </div>
   `
 })
