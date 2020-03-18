@@ -103,75 +103,69 @@ Vue.component('board', {
     }
   }, 
   template: `
-    <div class="card">
-      <!-- title of board -->
-      <!-- toggled view -->
-      <div class="row" v-if="toggleTitle">
-        <div class="span4">
-          <input v-model="title" type="text">
-        </div>
-        <div class="span4">
-          <button v-on:click="toggleTitle = !toggleTitle">Save</button>
-        </div>
-        <div class="span4">
-          <button v-on:click="toggleTitle = !toggleTitle">Back</button>
-        </div>
-      </div>
-
-      <!-- normal view -->
-      <div class="row" v-else>
-        <div class="span4">
-          <b>{{title}}</b>
-        </div>
-        <div class="span4">
-          <button v-on:click="toggleTitle = !toggleTitle">Edit</button>
-        </div>
-        <div class="span4">
-          <button v-on:click="removeBoard()">Remove</button>
-        </div>
-      </div>
-
-      <div class="row">
-        <ul>
-          <!-- list cards -->
-          <li v-for="c in cards"
+    <table>
+        <!-- title of board -->
+        <tr>
+            <!-- normal view -->
+            <th v-if="!toggleTitle">
+                {{title}}
+                <!-- edit btn -->
+                <button v-on:click="toggleTitle = !toggleTitle"><i class="fas fa-edit"></i></button>
+                <!--remove btn-->
+                <button v-on:click="removeBoard()"><i class="fas fa-trash"></i></button>
+            </th>
+    
+            <!-- toggled view-->
+            <th v-else>
+                <input v-model="title" type="text">
+                <!--save-->
+                <button v-on:click="toggleTitle = !toggleTitle"><i class="fas fa-save"></button>
+                <!--back-->
+                <button v-on:click="toggleTitle = !toggleTitle"><i class="fas fa-arrow-left"></button>
+            </th>
+        </tr>
+    
+        <!-- list cards-->
+        <tr v-for="c in cards"
             v-bind:id="'card-' + c.id"
             draggable="true"
             v-on:dragstart="drag($event)"
             v-on:dragover="$event.preventDefault()"
             v-on:drop="drop($event)">
-            
+            <td>
+                <!-- normal view -->
+                <template v-if="toggle != c.id">
+                    {{c.title}}
+                    <!--edit-->
+                    <button v-on:click="toggle = c.id"><i class="fas fa-edit"></button>
+                    <!--remove-->
+                    <button v-on:click="removeCard(c)"><i class="fas fa-trash"></button>
+                </template>
+    
+                <!-- toggled view -->
+                <template v-else>
+                    <input v-model="c.title" type="text">
+                    <button v-on:click="editCard(c)"><i class="fas fa-save"></button>
+                    <button v-on:click="toggle = null"><i class="fas fa-arrow-left"></button>
+                </template>
+            </td>
+        </tr>
+    
+        <!-- new card row -->
+        <tr><td>
+            <!-- normal view -->
+            <template v-if="!toggleCard">
+                <button v-on:click="toggleCard = true"><i class="fas fa-plus"></button>
+            </template>
             <!-- toggled view -->
-            <template v-if="toggle == c.id">
-              <input v-model="c.title" type="text">
-              <button v-on:click="editCard(c)">Save</button>
-              <button v-on:click="toggle = null">Back</button>
-            </template>
-
-            <!-- normal view -->
             <template v-else>
-              {{c.title}}
-              <button v-on:click="toggle = c.id">Edit</button>
-              <button v-on:click="removeCard(c)">Remove</button>
+                <input v-model="newCardTitle" type="text">
+                <button v-on:click="addCard(newCardTitle)"><i class="fas fa-save"></button>
+                <button v-on:click="toggleCard = !toggleCard"><i class="fas fa-arrow-left"></button>
             </template>
-          </li>
-          <!-- new card section -->
-          <li>
-            <!-- toggled card view -->
-            <template v-if="toggleCard == true">
-              <input v-model="newCardTitle" type="text">
-              <button v-on:click="addCard(newCardTitle)">Save</button>
-              <button v-on:click="toggleCard = !toggleCard">Back</button>
-            </template>
-            <!-- normal view -->
-            <template v-else>
-              <button v-on:click="toggleCard = true">Add Card</button>
-            </template>
-          </li>
-        </ul>  
-      </div>
-      
-    </div>
+        </td></tr>
+        
+    </table>
   `
 })
 

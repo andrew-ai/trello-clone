@@ -19,10 +19,20 @@
     border: groove; */
 /* } */
 
-/* #navy li {
+/* nav bar padding between icons */
+#navy li {
     margin: 0 0 0 10px;
 }
 
+/*
 .card {
     width: 230px;
 } */
+
+table {
+    border-collapse: collapse;
+}
+
+table {
+    border: 1px solid black;
+}
